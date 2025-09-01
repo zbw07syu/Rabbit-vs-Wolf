@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rabbit vs Wolf (Canvas)</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      text-align: center;
+      margin: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    h1 { margin-bottom: 16px; }
+    #gameContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    canvas { border: 2px solid #222; margin-bottom: 12px; }
+    #message { margin-top: 12px; font-size: 18px; min-height: 24px; }
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      justify-content: center;
+    }
+    .pssControls { margin-top: 8px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Rabbit vs Wolf</h1>
+
+  <div id="gameContainer">
+    <canvas id="gameCanvas" width="450" height="450"></canvas>
+    <div id="message">Click "Roll Dice" to start!</div>
+
+    <div class="controls">
+      <button id="rollDiceBtn">Roll Dice</button>
+    </div>
+
+    <div class="pssControls">
+      <button class="pssBtn" data-move="rock">Rock</button>
+      <button class="pssBtn" data-move="paper">Paper</button>
+      <button class="pssBtn" data-move="scissors">Scissors</button>
+    </div>
+  </div>
+
+  <!-- Background music -->
+  <audio id="bgMusic" src="peter-and-the-wolf-chiptune.mp3" loop></audio>
+
+  <script src="game.js"></script>
+</body>
+</html>
