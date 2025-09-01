@@ -125,7 +125,8 @@ function generateWaterTiles(){
   }
 }
 
-// ----- Reachable squares -----
+// ...existing code...
+
 function getReachableSquares(player, steps) {
   const visited = new Set();
   const queue = [{ x: player.x, y: player.y, remaining: steps }];
@@ -148,10 +149,15 @@ function getReachableSquares(player, steps) {
       const nx = x + dx;
       const ny = y + dy;
 
-      // Skip if out of grid and not a safety zone
-      if (!inGrid(nx, ny) && !inSafetyZone(nx, ny)) continue;
-
+      // --- Restrict rabbit entry to safety zone through doors only ---
       if (player === rabbit) {
+        const outsideSafety = !inSafetyZone(x, y);
+        const enteringSafety = inSafetyZone(nx, ny);
+        if (outsideSafety && enteringSafety) {
+          // Only allow entry if current square is a door
+          const isDoor = (x === doorBottom.x && y === doorBottom.y) || (x === doorRight.x && y === doorRight.y);
+          if (!isDoor) continue;
+        }
         // Rabbit cannot move onto wolf or water
         if (wolf.x === nx && wolf.y === ny) continue;
         if (waterTiles.some(t => t.x === nx && t.y === ny)) continue;
@@ -160,12 +166,17 @@ function getReachableSquares(player, steps) {
         if (waterTiles.some(t => t.x === nx && t.y === ny)) continue;
       }
 
+      // Skip if out of grid and not a safety zone
+      if (!inGrid(nx, ny) && !inSafetyZone(nx, ny)) continue;
+
       queue.push({ x: nx, y: ny, remaining: remaining - 1 });
     }
   }
 
   return reachable;
 }
+
+// ...existing code...
 
 // ----- Drawing -----
 function drawBoard(){
