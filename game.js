@@ -21,13 +21,21 @@ const diceRollSound = new Audio('dice.wav');
 const winSound = new Audio('cheer.wav');
 const loseSound = new Audio('meh.mp3');
 
-// Play background music on first user interaction
-document.body.addEventListener('click', () => {
-  if(bgMusic.paused){
-    bgMusic.loop = true;
-    bgMusic.play().catch(()=>{});
+// Start background music on first user interaction
+let musicStarted = false;
+
+function startMusicOnce() {
+  if (!musicStarted) {
+    bgMusic.loop = true;      // ensure it loops
+    bgMusic.volume = 0.3;     // set your desired volume
+    bgMusic.play().catch(() => console.log("Autoplay blocked"));
+    musicStarted = true;
   }
-}, { once: true });
+}
+
+// Trigger music on first user interaction
+document.body.addEventListener('click', startMusicOnce, { once: true });
+
 
 // Mute button
 const muteBtn = document.getElementById("muteBtn");
