@@ -111,8 +111,8 @@ const questions = [
   },
   // Multiple-choice
   { 
-    text: "Which countries are in Europe?", 
-    answer: "France, Germany, Spain", 
+    text: "Which country is not in Europe?", 
+    answer: "Brazil", 
     options: ["France", "Germany", "Spain", "Brazil"] 
   },
   // Single-choice
