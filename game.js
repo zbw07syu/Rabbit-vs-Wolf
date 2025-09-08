@@ -942,6 +942,3 @@ rulesBtn.addEventListener("click", () => {
 closeRulesBtn.addEventListener("click", () => {
   rulesPanel.classList.remove("show"); // slide out
 });
-closeRulesBtn.addEventListener("click", () => {
-  rulesPanel.classList.remove("show"); // slide out
-});
