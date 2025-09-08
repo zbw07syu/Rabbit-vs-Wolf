@@ -10,6 +10,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
 </head>
 <body>
+  <div id="victoryModal" class="modal">
+  <div class="modalContent">
+    <h2>Set Victory Points</h2>
+    <p>Choose how many points are needed to win:</p>
+    <button class="vpBtn" data-points="5">5</button>
+    <button class="vpBtn" data-points="10">10</button>
+    <button class="vpBtn" data-points="15">15</button>
+  </div>
+</div>
     <div id="rulesPanel">
   <h2>Game Rules</h2>
     <p><strong>Objective</strong><br>
@@ -77,6 +86,7 @@
       document.body.style.visibility = 'visible';
     });
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="game.js"></script>
 </body>
 </html>
