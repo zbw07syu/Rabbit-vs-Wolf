@@ -280,6 +280,10 @@ function generateCarrot() {
   carrotSound.play();
 }
 
+function resetCarrotCounter() {
+  carrotTurnCounter = 0;   // or whatever variable you’re using
+}
+
 function endTurnUpdate() {
   turnsSinceCarrot++;
 
@@ -538,7 +542,7 @@ function checkMatchWin() {
     victoryMusic.play().catch(err => {
       console.log("Victory music playback was blocked:", err);
     });
-
+    resetCarrotCounter();
     endMatch();
   } else if (wolfWins >= victoryPoints) {
     updateMessage(`🐺 Wolf wins the match with ${wolfWins} points! 🎉`);
@@ -556,7 +560,7 @@ function checkMatchWin() {
     victoryMusic.play().catch(err => {
       console.log("Victory music playback was blocked:", err);
     });
-
+    resetCarrotCounter();
     endMatch();
   }
 }
@@ -845,9 +849,6 @@ function reset() {
   currentPlayer = null;
   diceQueue = [];
 
-  // Reset carrot counter
-  turnsSinceCarrot = 0;
-  carrot = null;
 
   // Stop victory music if it’s playing
   victoryMusic.pause();
@@ -938,6 +939,9 @@ rulesBtn.addEventListener("click", () => {
   rulesPanel.classList.add("show");   // slide in
 });
 
+closeRulesBtn.addEventListener("click", () => {
+  rulesPanel.classList.remove("show"); // slide out
+});
 closeRulesBtn.addEventListener("click", () => {
   rulesPanel.classList.remove("show"); // slide out
 });
