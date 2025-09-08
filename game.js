@@ -527,10 +527,17 @@ function checkMatchWin() {
     answerDiv.textContent = ''; // clear previous messages
     triggerConfetti();
 
-    // Stop background music and play victory music
+    // Stop background music
     bgMusic.pause();
+    bgMusic.currentTime = 0;
+
+    // Play victory music safely
+    victoryMusic.pause();
+    victoryMusic.currentTime = 0;
     victoryMusic.volume = 0.3;
-    victoryMusic.play();
+    victoryMusic.play().catch(err => {
+      console.log("Victory music playback was blocked:", err);
+    });
 
     endMatch();
   } else if (wolfWins >= victoryPoints) {
@@ -538,10 +545,17 @@ function checkMatchWin() {
     answerDiv.textContent = ''; // clear previous messages
     triggerConfetti();
 
-    // Stop background music and play victory music
+    // Stop background music
     bgMusic.pause();
+    bgMusic.currentTime = 0;
+
+    // Play victory music safely
+    victoryMusic.pause();
+    victoryMusic.currentTime = 0;
     victoryMusic.volume = 0.3;
-    victoryMusic.play();
+    victoryMusic.play().catch(err => {
+      console.log("Victory music playback was blocked:", err);
+    });
 
     endMatch();
   }
