@@ -2256,18 +2256,18 @@ function updateScoreDisplay() {
     redRabbitScore.style.display = "list-item";
     blueRabbitScore.style.display = "list-item";
 
-    // Use per-rabbit counters (start at 0). You can map rabbitWins to redRabbitWins if desired.
-    redRabbitScore.textContent = `🐇 Red Rabbit: ${redRabbitWins}`;
-    blueRabbitScore.textContent = `🐇 Blue Rabbit: ${blueRabbitWins}`;
+    // Use per-rabbit counters (start at 0). Use colored icons for consistency with PSS labels
+    redRabbitScore.textContent = `🔴 Rabbit: ${redRabbitWins}`;
+    blueRabbitScore.textContent = `🔵 Rabbit: ${blueRabbitWins}`;
   } else if (numTeams === 4) {
     // 4-player: red, blue, black, wolf
     redRabbitScore.style.display = "list-item";
     blueRabbitScore.style.display = "list-item";
     blackRabbitScore.style.display = "list-item";
 
-    redRabbitScore.textContent = `🐇 Red Rabbit: ${redRabbitWins}`;
-    blueRabbitScore.textContent = `🐇 Blue Rabbit: ${blueRabbitWins}`;
-    blackRabbitScore.textContent = `🐇 Black Rabbit: ${blackRabbitWins}`;
+    redRabbitScore.textContent = `🔴 Rabbit: ${redRabbitWins}`;
+    blueRabbitScore.textContent = `🔵 Rabbit: ${blueRabbitWins}`;
+    blackRabbitScore.textContent = `⚫ Rabbit: ${blackRabbitWins}`;
   }
 }
 
