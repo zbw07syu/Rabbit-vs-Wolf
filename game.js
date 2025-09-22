@@ -1118,6 +1118,26 @@ function checkWin() {
   return false;
 }
 
+// ----- Controls helpers -----
+function showDiceControls() {
+  // Suppress if victory is active
+  if (questionDiv.dataset && questionDiv.dataset.victory === 'true') return;
+  controlsDiv.innerHTML = "";
+  controlsDiv.appendChild(rollDiceBtn);
+  rollDiceBtn.style.display = "inline-block";
+  rollDiceBtn.disabled = false;
+  pssPanel.style.display = "none";
+}
+
+function showPSSControls() {
+  if (questionDiv.dataset && questionDiv.dataset.victory === 'true') return;
+  controlsDiv.innerHTML = "";
+  controlsDiv.appendChild(pssPanel);
+  pssPanel.style.display = "block";
+  rollDiceBtn.style.display = "none";
+  rollDiceBtn.disabled = true;
+}
+
 // ----- Resume dice queue or PSS -----
 function resumeGamePhase() {
   if (questionDiv.dataset && questionDiv.dataset.victory === 'true') return;
@@ -1145,17 +1165,35 @@ function resumeGamePhase() {
       forcedNextPlayerName = null;
     }
 
+    // Robust normalization/recovery of diceQueue head
+    if (!nextPlayer || !nextPlayer.name) {
+      const recovered = players.find(p => p && p.obj === diceQueue[0]);
+      if (recovered) {
+        diceQueue[0] = recovered;
+        nextPlayer = recovered;
+      } else {
+        // Drop bad head and try again once; otherwise fall back to PSS
+        diceQueue.shift();
+        if (!diceQueue.length) {
+          currentPlayer = null;
+          showPSSControls();
+          startPSSRound();
+          maybeAutoPlayPSS();
+          return;
+        }
+        nextPlayer = ensureWrapper(diceQueue[0]);
+        if (!nextPlayer || !nextPlayer.name) {
+          currentPlayer = null;
+          showPSSControls();
+          startPSSRound();
+          maybeAutoPlayPSS();
+          return;
+        }
+      }
+    }
+
     currentPlayer = nextPlayer;
-
-    // Move the Roll Dice button into controls area and enable it
-    controlsDiv.innerHTML = "";
-    controlsDiv.appendChild(rollDiceBtn);
-    rollDiceBtn.style.display = "inline-block";
-    rollDiceBtn.disabled = false;
-
-    // Ensure message text stays in questionDiv; do not overwrite controls here
-    // Hide PSS panel during dice phase
-    pssPanel.style.display = "none";
+    showDiceControls();
 
     // Immediately highlight the next player when prompting to roll
     if (nextPlayer && nextPlayer.name) {
@@ -1167,16 +1205,7 @@ function resumeGamePhase() {
     maybeAutoRollIfAI(nextPlayer);
   } else {
     currentPlayer = null;
-    rollDiceBtn.disabled = true;
-
-    // Return PSS panel to controls area for PSS phase
-    controlsDiv.innerHTML = "";
-    controlsDiv.appendChild(pssPanel);
-    pssPanel.style.display = "block";
-
-    // Hide dice button when not needed
-    rollDiceBtn.style.display = "none";
-
+    showPSSControls();
     startPSSRound();
     maybeAutoPlayPSS();
   }
