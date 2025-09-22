@@ -10,13 +10,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="victoryModal" class="modal">
+<div id="teamModal" class="modal">
+  <div class="modalContent">
+    <h2>Select Number of Teams</h2>
+    <p>Choose how many teams will play:</p>
+
+    <div class="teamOption">
+      <span class="teamNumber">2</span>
+      <button class="teamBtn" data-teams="2">
+        <img src="images/rabbit.png" alt="Rabbit" class="teamIcon">
+        <img src="images/wolf.png" alt="Wolf" class="teamIcon">
+      </button>
+    </div>
+
+    <div class="teamOption">
+      <span class="teamNumber">3</span>
+      <button class="teamBtn" data-teams="3">
+        <img src="images/rabbit.png" alt="Rabbit" class="teamIcon">
+        <img src="images/rabbit.png" alt="Rabbit" class="teamIcon">
+        <img src="images/wolf.png" alt="Wolf" class="teamIcon">
+      </button>
+    </div>
+
+    <div class="teamOption">
+      <span class="teamNumber">4</span>
+      <button class="teamBtn" data-teams="4">
+        <img src="images/rabbit.png" alt="Rabbit" class="teamIcon">
+        <img src="images/rabbit.png" alt="Rabbit" class="teamIcon">
+        <img src="images/rabbit.png" alt="Rabbit" class="teamIcon">
+        <img src="images/wolf.png" alt="Wolf" class="teamIcon">
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- New: Number of Human Teams Modal -->
+<div id="humanTeamsModal" class="modal">
+  <div class="modalContent">
+    <h2>Number of Human Teams</h2>
+    <p>Select how many teams are controlled by humans:</p>
+    <div id="humanTeamOptions"></div>
+  </div>
+</div>
+
+<!-- New: Player Selection Modal -->
+<div id="playerSelectModal" class="modal">
+  <div class="modalContent">
+    <h2>Player Selection</h2>
+    <p id="playerSelectMsg">Select players for human control</p>
+    <div id="playerOptions" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <button id="playerConfirmBtn" class="vpBtn" disabled>Confirm</button>
+  </div>
+</div>
+
+<div id="victoryModal" class="modal">
   <div class="modalContent">
     <h2>Set Victory Points</h2>
     <p>Choose how many points are needed to win:</p>
+    <button class="vpBtn" data-points="3">3</button>
     <button class="vpBtn" data-points="5">5</button>
     <button class="vpBtn" data-points="10">10</button>
-    <button class="vpBtn" data-points="15">15</button>
   </div>
 </div>
     <div id="rulesPanel">
@@ -39,10 +93,9 @@
   <button id="muteBtn">Mute/Unmute Music</button>
   <button id="rulesBtn">Rules</button>
   <button id="restartBtn">Restart</button>
-  <button id="rollDiceBtn">Roll Dice</button>
 
-  <!-- Paper, Scissors, Stone buttons -->
-  <div id="pssPanel">
+  <!-- Paper, Scissors, Stone buttons (relocated dynamically into controls) -->
+  <div id="pssPanel" style="display:none;">
     <button class="pssBtn" data-move="rock">
       <img src="images/rock.jpg" alt="Rock" width="40">
     </button>
@@ -53,6 +106,9 @@
       <img src="images/scissors.jpg" alt="Scissors" width="40">
     </button>
   </div>
+
+  <!-- Roll Dice button (relocated dynamically into controls) -->
+  <button id="rollDiceBtn" class="controlsBtn" style="display:none;">Roll Dice</button>
 </div>
 
     <!-- Center Panel -->
@@ -66,11 +122,14 @@
   </div>
 </div>
 
-    <!-- Right Panel -->
-    <div id="rightPanel">
-      <ul id="scores">
-  <li id="rabbitScore">🐇 Rabbit: 0</li>
-  <li id="wolfScore">🐺 Wolf: 0</li>
+<!-- Right Panel -->
+<div id="rightPanel">
+<ul id="scores">
+  <li id="rabbitScore" class="scoreboard-item">🐇 Rabbit: 0</li>
+  <li id="wolfScore" class="scoreboard-item">🐺 Wolf: 0</li>
+  <li id="blueRabbitScore" class="scoreboard-item" style="display: none;">🐇 Blue Rabbit: 0</li>
+  <li id="redRabbitScore" class="scoreboard-item" style="display: none;">🐇 Red Rabbit: 0</li>
+  <li id="blackRabbitScore" class="scoreboard-item" style="display: none;">🐇 Black Rabbit: 0</li>
 </ul>
 </div>
   
