@@ -5,6 +5,48 @@
   font-display: block; /* ensures text waits for font to load */
 }
 
+/* Team Selection Buttons */
+.teamOption {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.teamNumber {
+  font-family: 'Bangers', cursive;
+  font-size: 32px;
+  font-weight: bold;
+  min-width: 30px; /* keeps numbers aligned */
+  text-align: right;
+  margin-right: 10px; /* space between number and button */
+}
+
+.teamBtn {
+  display: flex;
+  justify-content: center; /* centers the icons inside */
+  gap: 5px;
+  padding: 10px;
+  background-color: #f4f4f4;
+  border: 3px solid #333;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+
+  width: 220px; /* fixed width for all buttons */
+  box-sizing: border-box; /* includes padding in width */
+}
+
+.teamBtn:hover {
+  background-color: #ffe066;
+  transform: scale(1.05);
+}
+
+.teamIcon {
+  width: 40px;
+  height: 40px;
+}
+
+
 /* Modal background overlay */
 .modal {
   display: flex;               
@@ -56,8 +98,8 @@
   font-size: 1em;
 }
 
-/* Victory Modal Buttons */
-#victoryModal .vpBtn {
+/* Generic modal choice buttons (used by victory points and human-count modals) */
+.vpBtn {
   font-family: 'Bangers', cursive; /* Bangers font */
   font-size: 24px;
   width: 100px;        /* fixed width */
@@ -69,9 +111,10 @@
   background-color: #ffd54a;
   color: #000;
   transition: background-color 0.2s;
+  z-index: 1010; /* slightly higher than teamModal */
 }
 
-#victoryModal .vpBtn:hover {
+.vpBtn:hover {
   background-color: #ffca28;
 }
 
@@ -291,7 +334,7 @@ canvas {
 }
 
 /* Hover effect for CONTROLS buttons */
-#controls button:hover {
+.controlsBtn:hover {
   background-color: #ffd54a;
   color: #000;
   transform: scale(1.05);
