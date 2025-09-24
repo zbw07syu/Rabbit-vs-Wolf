@@ -1119,14 +1119,37 @@ function checkWin() {
 }
 
 // ----- Controls helpers -----
-function showDiceControls() {
-  // Suppress if victory is active
-  if (questionDiv.dataset && questionDiv.dataset.victory === 'true') return;
-  controlsDiv.innerHTML = "";
+function ensureDiceControls() {
+  // If a stale victory lock exists, clear it for dice prompts
+  if (questionDiv.dataset && questionDiv.dataset.victory === 'true') {
+    delete questionDiv.dataset.victory;
+  }
+  // Stop any lingering PSS/Q&A timers that might race UI updates
+  try { clearPssAITimeouts(); } catch {}
+
+  // Render the Roll Dice button into controls
+  controlsDiv.innerHTML = '';
+  if (!rollDiceBtn.classList.contains('controlsBtn')) rollDiceBtn.classList.add('controlsBtn');
   controlsDiv.appendChild(rollDiceBtn);
-  rollDiceBtn.style.display = "inline-block";
+  rollDiceBtn.style.display = 'inline-block';
+  rollDiceBtn.style.visibility = 'visible';
   rollDiceBtn.disabled = false;
-  pssPanel.style.display = "none";
+  pssPanel.style.display = 'none';
+
+  // Re-assert once on next frame to beat any late clears
+  requestAnimationFrame(() => {
+    if (!controlsDiv.contains(rollDiceBtn)) {
+      controlsDiv.innerHTML = '';
+      controlsDiv.appendChild(rollDiceBtn);
+      rollDiceBtn.style.display = 'inline-block';
+      rollDiceBtn.style.visibility = 'visible';
+      rollDiceBtn.disabled = false;
+    }
+  });
+}
+
+function showDiceControls() {
+  ensureDiceControls();
 }
 
 function showPSSControls() {
@@ -1490,10 +1513,8 @@ function endMovementPhase() {
     
     if (nextPeek && nextPeek.name) {
       // Ensure the Roll Dice button is visible in controls
-      controlsDiv.innerHTML = "";
-      controlsDiv.appendChild(rollDiceBtn);
-      rollDiceBtn.style.display = "inline-block";
-      rollDiceBtn.disabled = false;
+      ensureDiceControls();
+      requestAnimationFrame(() => ensureDiceControls());
 
       highlightCurrentPlayer(nextPeek.name);
       const namesMap = getNamesMap();
@@ -2041,7 +2062,8 @@ function showNextOrEnd() {
     questionDiv.textContent = `🐺 Wolf, roll the dice!`;
     answerDiv.textContent = "";
 
-    rollDiceBtn.disabled = false;
+    // Ensure dice controls are shown when transitioning from PSS to dice
+    showDiceControls();
 
 // Build diceQueue as WRAPPERS (wolf first, then rotated rabbits)
 if (numTeams === 2) {
@@ -2071,7 +2093,10 @@ isDiceTurn = false;
     if (first) {
       const namesMap = getNamesMap();
       questionDiv.textContent = `${namesMap[first.name] || first.name}, roll the dice!`;
-      rollDiceBtn.disabled = false;
+      // Ensure the Roll Dice button is visible in controls (robustly)
+      ensureDiceControls();
+      // Double-check on next frame in case any late clears ran after this call
+      requestAnimationFrame(() => ensureDiceControls());
       maybeAutoRollIfAI(first);
     }
 
@@ -2538,10 +2563,8 @@ if (!next || !next.name || !next.obj) {
       const namesMap = getNamesMap();
       questionDiv.textContent = `${namesMap[nextPlayer.name] || nextPlayer.name}, roll the dice!`;
       // Ensure the Roll Dice button stays visible
-      controlsDiv.innerHTML = "";
-      controlsDiv.appendChild(rollDiceBtn);
-      rollDiceBtn.style.display = "inline-block";
-      rollDiceBtn.disabled = false;
+      ensureDiceControls();
+      requestAnimationFrame(() => ensureDiceControls());
       maybeAutoRollIfAI(nextPlayer);
     } else {
       // End of dice phase
